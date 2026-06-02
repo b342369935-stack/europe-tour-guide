@@ -769,9 +769,9 @@
         <header class="app-header">
             <span class="tag">✦ 精选路线</span>
             <h1>欧洲经典之旅</h1>
-            <p class="subtitle">从音乐之都到帝国遗迹，探索欧洲的文化瑰宝</p>
+            <p class="subtitle">从浪漫巴黎到古罗马，一次穿越欧洲文明的壮丽之旅</p>
             <div class="duration-badge">
-                <span class="dot"></span> 全程1天 · 1座城市 · 深度体验
+                <span class="dot"></span> 全程14天 · 7座城市 · 深度体验
             </div>
         </header>
 
@@ -812,25 +812,141 @@
     <script>
         (function() {
             // ========== 城市数据配置 ==========
-            const citiesData = [{
-                id: 'vienna',
-                name: '维也纳',
-                nameEn: 'Vienna',
-                emoji: '🎻',
-                days: '第1天',
-                dayRange: [1, 1],
-                description: '音乐之都，帝国遗迹。维也纳融汇了哈布斯堡王朝的皇家气派与世界古典音乐的文化底蕴。漫步圣斯蒂芬大教堂的哥特式建筑，参观美泉宫的华丽宫殿，在咖啡馆品尝维也纳咖啡的醇厚香味。这座城市的每一条街道都讲述着音乐大师的故事。',
-                highlights: ['美泉宫', '圣斯蒂芬大教堂', '维也纳国家歌剧院', '金色大厅', '咖啡文化'],
-                highlightEmojis: ['🏰', '⛪', '🎭', '🎵', '☕'],
-                stayNights: '1晚',
-                bestSeason: '春秋季（4-5月、9-10月）',
-                photos: [
-                    'https://picsum.photos/seed/vienna-palace/800/500',
-                    'https://picsum.photos/seed/vienna-cathedral/800/500',
-                    'https://picsum.photos/seed/vienna-opera/800/500',
-                    'https://picsum.photos/seed/vienna-coffee/800/500',
-                ],
-            }];
+            const citiesData = [
+                {
+                    id: 'paris',
+                    name: '巴黎',
+                    nameEn: 'Paris',
+                    emoji: '🗼',
+                    days: '第1-3天',
+                    dayRange: [1, 3],
+                    description: '浪漫之都，艺术之城。巴黎以其优雅的建筑、世界级的美术馆和浪漫的氛围而闻名。漫步塞纳河畔，登上埃菲尔铁塔俯瞰整座城市，在卢浮宫欣赏《蒙娜丽莎》，参观令人惊叹的圣母院。品尝法国美食，感受巴黎独特的文化魅力。',
+                    highlights: ['埃菲尔铁塔', '卢浮宫', '圣母院', '凯旋门', '塞纳河'],
+                    highlightEmojis: ['🗼', '🎨', '⛪', '🏛️', '🚤'],
+                    stayNights: '3晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://picsum.photos/seed/paris-eiffel/800/500',
+                        'https://picsum.photos/seed/paris-louvre/800/500',
+                        'https://picsum.photos/seed/paris-seine/800/500',
+                        'https://picsum.photos/seed/paris-notredame/800/500',
+                    ],
+                },
+                {
+                    id: 'london',
+                    name: '伦敦',
+                    nameEn: 'London',
+                    emoji: '🇬🇧',
+                    days: '第4-5天',
+                    dayRange: [4, 5],
+                    description: '英国首都，历史重镇。伦敦融合了古老的皇家传统与现代都市活力。参观标志性的大本钟和威斯敏斯特教堂，在伦敦塔桥感受泰晤士河的壮美，探索大英博物馆的无价瑰宝，享受英式下午茶的优雅时光。',
+                    highlights: ['大本钟', '伦敦塔桥', '威斯敏斯特教堂', '大英博物馆', '皮卡迪利广场'],
+                    highlightEmojis: ['🔔', '🌉', '⛪', '🏛️', '🌃'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（5月、9月）',
+                    photos: [
+                        'https://picsum.photos/seed/london-bigben/800/500',
+                        'https://picsum.photos/seed/london-tower-bridge/800/500',
+                        'https://picsum.photos/seed/london-westminster/800/500',
+                        'https://picsum.photos/seed/london-museum/800/500',
+                    ],
+                },
+                {
+                    id: 'amsterdam',
+                    name: '阿姆斯特丹',
+                    nameEn: 'Amsterdam',
+                    emoji: '🚲',
+                    days: '第6-7天',
+                    dayRange: [6, 7],
+                    description: '自行车之城，运河天堂。阿姆斯特丹以其纵横交错的运河、宽容的文化和艺术气息而著称。骑自行车穿梭在古老街道，乘坐传统木船沿运河游览，参观梵高美术馆，探索安妮·弗兰克故居的历史记忆。',
+                    highlights: ['运河游船', '梵高美术馆', '安妮·弗兰克故居', '自行车文化', '辛格花市'],
+                    highlightEmojis: ['🚤', '🎨', '📖', '🚲', '🌸'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://picsum.photos/seed/amsterdam-canal/800/500',
+                        'https://picsum.photos/seed/amsterdam-bicycle/800/500',
+                        'https://picsum.photos/seed/amsterdam-vangogh/800/500',
+                        'https://picsum.photos/seed/amsterdam-flower-market/800/500',
+                    ],
+                },
+                {
+                    id: 'berlin',
+                    name: '柏林',
+                    nameEn: 'Berlin',
+                    emoji: '🧱',
+                    days: '第8-9天',
+                    dayRange: [8, 9],
+                    description: '历史见证者，文化之都。柏林承载着欧洲20世纪的重要历史，是艺术、音乐和设计的中心。参观勃兰登堡门和国会大厦，了解柏林墙的历史，探索遍布城市的街头艺术和博物馆，体验柏林独特的夜生活和创意文化。',
+                    highlights: ['勃兰登堡门', '柏林墙遗迹', '国会大厦', '博物馆岛', '街头艺术'],
+                    highlightEmojis: ['🚪', '🧱', '🏛️', '🎨', '🎭'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（5月、9月）',
+                    photos: [
+                        'https://picsum.photos/seed/berlin-brandenburg/800/500',
+                        'https://picsum.photos/seed/berlin-wall/800/500',
+                        'https://picsum.photos/seed/berlin-reichstag/800/500',
+                        'https://picsum.photos/seed/berlin-street-art/800/500',
+                    ],
+                },
+                {
+                    id: 'vienna',
+                    name: '维也纳',
+                    nameEn: 'Vienna',
+                    emoji: '🎻',
+                    days: '第10-11天',
+                    dayRange: [10, 11],
+                    description: '音乐之都，帝国遗迹。维也纳融汇了哈布斯堡王朝的皇家气派与世界古典音乐的文化底蕴。漫步圣斯蒂芬大教堂的哥特式建筑，参观美泉宫的华丽宫殿，在咖啡馆品尝维也纳咖啡的醇厚香味。这座城市的每一条街道都讲述着音乐大师的故事。',
+                    highlights: ['美泉宫', '圣斯蒂芬大教堂', '维也纳国家歌剧院', '金色大厅', '咖啡文化'],
+                    highlightEmojis: ['🏰', '⛪', '🎭', '🎵', '☕'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://picsum.photos/seed/vienna-palace/800/500',
+                        'https://picsum.photos/seed/vienna-cathedral/800/500',
+                        'https://picsum.photos/seed/vienna-opera/800/500',
+                        'https://picsum.photos/seed/vienna-coffee/800/500',
+                    ],
+                },
+                {
+                    id: 'rome',
+                    name: '罗马',
+                    nameEn: 'Rome',
+                    emoji: '🏛️',
+                    days: '第12-13天',
+                    dayRange: [12, 13],
+                    description: '永恒之城，古文明摇篮。罗马是世界上最古老的首都之一，拥有令人惊叹的历史遗迹。参观雄伟的圆形竞技场和古罗马遗迹，瞻仰梵蒂冈圣彼得大教堂和西斯廷礼拜堂的艺术瑰宝，漫步特雷维喷泉投掷硬币许愿。',
+                    highlights: ['圆形竞技场', '梵蒂冈', '西斯廷礼拜堂', '特雷维喷泉', '古罗马遗迹'],
+                    highlightEmojis: ['🏛️', '⛪', '🎨', '💧', '🏺'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://picsum.photos/seed/rome-colosseum/800/500',
+                        'https://picsum.photos/seed/rome-vatican/800/500',
+                        'https://picsum.photos/seed/rome-trevi/800/500',
+                        'https://picsum.photos/seed/rome-forum/800/500',
+                    ],
+                },
+                {
+                    id: 'barcelona',
+                    name: '巴塞罗那',
+                    nameEn: 'Barcelona',
+                    emoji: '🎨',
+                    days: '第14天',
+                    dayRange: [14, 14],
+                    description: '艺术之都，高迪杰作。巴塞罗那以其独特的建筑风格和充满活力的文化而世界闻名。参观高迪的杰作圣家族大教堂和奎尔公园，在哥特区迷失在中世纪街道中，享受地中海海滩的阳光和沙滩，感受这座城市的创意和热情。',
+                    highlights: ['圣家族大教堂', '奎尔公园', '哥特区', '蒙特惠奇城堡', '海滩'],
+                    highlightEmojis: ['⛪', '🎨', '🏘️', '🏰', '🏖️'],
+                    stayNights: '1晚',
+                    bestSeason: '春秋季（5月、9月）',
+                    photos: [
+                        'https://picsum.photos/seed/barcelona-sagrada/800/500',
+                        'https://picsum.photos/seed/barcelona-park-guell/800/500',
+                        'https://picsum.photos/seed/barcelona-gothic/800/500',
+                        'https://picsum.photos/seed/barcelona-beach/800/500',
+                    ],
+                },
+            ];
 
             // ========== 状态管理 ==========
             let currentCityIndex = 0;
@@ -871,12 +987,12 @@
                     node.dataset.cityIndex = index;
 
                     node.innerHTML = `
-                            <div class="node-circle">${city.emoji}</div>
-                            <div class="node-info">
-                                <div class="node-city">${city.name}</div>
-                                <div class="node-days">${city.days}</div>
-                            </div>
-                        `;
+                        <div class="node-circle">${city.emoji}</div>
+                        <div class="node-info">
+                            <div class="node-city">${city.name}</div>
+                            <div class="node-days">${city.days}</div>
+                        </div>
+                    `;
 
                     node.addEventListener('click', () => selectCity(index));
                     node.addEventListener('keydown', (e) => {
@@ -973,20 +1089,20 @@
                     .join('');
 
                 infoArea.innerHTML = `
-                        <div class="fade-transition">
-                            <h2 class="info-city-name">${city.emoji} ${city.name}</h2>
-                            <p class="info-city-eng">${city.nameEn} · ${city.days}</p>
-                            <p class="info-description">${city.description}</p>
-                            <div class="info-highlights">${highlightsHTML}</div>
-                            <div class="info-meta-row">
-                                <span class="info-meta-item"><span class="icon">🛏️</span> 建议停留：${city.stayNights}</span>
-                                <span class="info-meta-item"><span class="icon">🌤️</span> 最佳季节：${city.bestSeason}</span>
-                            </div>
-                            <button class="auto-tour-btn" id="autoTourBtn" title="自动巡游全部城市">
-                                <span>🎬</span> 自动巡游
-                            </button>
+                    <div class="fade-transition">
+                        <h2 class="info-city-name">${city.emoji} ${city.name}</h2>
+                        <p class="info-city-eng">${city.nameEn} · ${city.days}</p>
+                        <p class="info-description">${city.description}</p>
+                        <div class="info-highlights">${highlightsHTML}</div>
+                        <div class="info-meta-row">
+                            <span class="info-meta-item"><span class="icon">🛏️</span> 建议停留：${city.stayNights}</span>
+                            <span class="info-meta-item"><span class="icon">🌤️</span> 最佳季节：${city.bestSeason}</span>
                         </div>
-                    `;
+                        <button class="auto-tour-btn" id="autoTourBtn" title="自动巡游全部城市">
+                            <span>🎬</span> 自动巡游
+                        </button>
+                    </div>
+                `;
 
                 const autoTourBtn = document.getElementById('autoTourBtn');
                 if (autoTourBtn) {
@@ -1156,12 +1272,13 @@
 
             init();
 
-            console.log('🌍 旅行路线图已就绪！');
+            console.log('🌍 欧洲旅行路线图已就绪！');
+            console.log('   - 已添加7座欧洲城市');
+            console.log('   - 巴黎、伦敦、阿姆斯特丹、柏林、维也纳、罗马、巴塞罗那');
             console.log('   - 点击路线图节点切换城市');
             console.log('   - 使用 ◀ ▶ 箭头切换照片');
-            console.log('   - 按键盘数字键 1-' + citiesData.length + ' 快速切换城市');
+            console.log('   - 按键盘数字键 1-7 快速切换城市');
             console.log('   - 点击"自动巡游"按钮自动播放全部城市');
-            console.log('   - 照片每5秒自动轮播');
         })();
     </script>
 </body>
