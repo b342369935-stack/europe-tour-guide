@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行路线图 - 欧洲经典之旅</title>
+    <style>
+        :root {
+            --primary: #e8813b;
+            --primary-dark: #c56a2a;
+            --primary-light: #fdf0e6;
+            --bg: #fafaf8;
+            --card-bg: #ffffff;
+            --text: #2c2c2c;
+            --text-secondary: #6b6b6b;
+            --text-light: #999;
+            --border: #e8e5e0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+            --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.16), 0 8px 20px rgba(0, 0, 0, 0.08);
+            --radius-sm: 10px;
+            --radius: 16px;
+            --radius-lg: 20px;
+            --radius-xl: 24px;
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --font-heading: 'Georgia', 'Noto Serif SC', 'STSong', 'Songti SC', serif;
+            --font-body: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(165deg, #fdfaf6 0%, #f7f2ea 25%, #faf8f4 50%, #f5f0e8 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* 背景装饰 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -300px;
+            right: -200px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(232, 129, 59, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -250px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(180, 140, 100, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 20px 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== 头部 ========== */
+        .app-header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 10px 0;
+        }
+        .app-header .tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .app-header h1 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #1a1a1a;
+            margin: 6px 0;
+        }
+        .app-header .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+            font-weight: 400;
+        }
+        .app-header .duration-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            box-shadow: var(--shadow-sm);
+            letter-spacing: 0.03em;
+        }
+        .duration-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #4caf84;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 132, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(76, 175, 132, 0);
+            }
+        }
+
+        /* ========== 路线图区域 ========== */
+        .route-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 32px 20px 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .route-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #e8813b, #e8a040, #d4956b, #c9a87c, #b8956e);
+            opacity: 0.7;
+        }
+
+        .route-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .route-timeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: nowrap;
+            position: relative;
+            padding: 16px 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            cursor: default;
+            scrollbar-width: thin;
+            scrollbar-color: #d0ccc6 transparent;
+        }
+        .route-timeline::-webkit-scrollbar {
+            height: 4px;
+        }
+        .route-timeline::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 4px;
+        }
+        .route-timeline::-webkit-scrollbar-thumb {
+            background: #d0ccc6;
+            border-radius: 4px;
+        }
+
+        .route-node-wrapper {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .route-connector {
+            width: 50px;
+            height: 3px;
+            background: #e0dbd3;
+            border-radius: 3px;
+            flex-shrink: 0;
+            transition: all var(--transition);
+            position: relative;
+        }
+        .route-connector.completed {
+            background: var(--primary);
+            box-shadow: 0 0 8px rgba(232, 129, 59, 0.3);
+        }
+        .route-connector:last-child {
+            display: none;
+        }
+
+        .route-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+            transition: transform var(--transition-bounce);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            padding: 4px;
+        }
+        .route-node:hover {
+            transform: translateY(-4px);
+        }
+        .route-node:active {
+            transform: scale(0.94);
+        }
+
+        .node-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid #e0dbd3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            color: #b0a89e;
+        }
+        .route-node.active .node-circle {
+            width: 60px;
+            height: 60px;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: var(--shadow-lg), 0 0 0 10px rgba(232, 129, 59, 0.08);
+            color: var(--primary);
+            animation: activePulse 2.5s ease-in-out infinite;
+        }
+        @keyframes activePulse {
+            0%,
+            100% {
+                box-shadow: var(--shadow-lg), 0 0 0 8px rgba(232, 129, 59, 0.06);
+            }
+            50% {
+                box-shadow: var(--shadow-lg), 0 0 0 18px rgba(232, 129, 59, 0.02);
+            }
+        }
+        .route-node.visited .node-circle {
+            border-color: #c9a87c;
+            background: #fdf8f3;
+            color: #b8956e;
+        }
+        .route-node.visited .node-circle::after {
+            content: '✓';
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            background: #4caf84;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .node-info {
+            text-align: center;
+            margin-top: 8px;
+            transition: all var(--transition);
+        }
+        .node-city {
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            color: #555;
+            transition: color var(--transition);
+            white-space: nowrap;
+        }
+        .route-node.active .node-city {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+        .route-node.visited .node-city {
+            color: #888;
+        }
+        .node-days {
+            font-size: 0.7rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            transition: color var(--transition);
+        }
+        .route-node.active .node-days {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .scroll-hint {
+            display: none;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #c5bfb6;
+            margin-top: 8px;
+            letter-spacing: 0.05em;
+            animation: fadeHint 2s ease-in-out infinite;
+        }
+        @keyframes fadeHint {
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        @media (max-width: 768px) {
+            .scroll-hint {
+                display: block;
+            }
+            .route-timeline {
+                justify-content: flex-start;
+                padding: 16px 4px;
+            }
+            .route-connector {
+                width: 36px;
+            }
+            .node-circle {
+                width: 44px;
+                height: 44px;
+                font-size: 1.3rem;
+                border-width: 2.5px;
+            }
+            .route-node.active .node-circle {
+                width: 50px;
+                height: 50px;
+            }
+            .node-city {
+                font-size: 0.78rem;
+            }
+            .route-node.active .node-city {
+                font-size: 0.82rem;
+            }
+            .node-days {
+                font-size: 0.65rem;
+            }
+            .app-header h1 {
+                font-size: 1.6rem;
+            }
+            .route-section {
+                padding: 22px 10px 20px;
+                border-radius: var(--radius);
+            }
+        }
+
+        /* ========== 详情面板 ========== */
+        .detail-panel {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all var(--transition);
+            position: relative;
+        }
+
+        .detail-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 420px;
+        }
+        @media (max-width: 768px) {
+            .detail-inner {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                min-height: auto;
+            }
+        }
+
+        .photo-area {
+            position: relative;
+            overflow: hidden;
+            background: #1a1a1a;
+            min-height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .photo-area {
+                min-height: 260px;
+                max-height: 320px;
+            }
+        }
+        .photo-slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 380px;
+        }
+        @media (max-width: 768px) {
+            .photo-slides {
+                min-height: 260px;
+            }
+        }
+        .photo-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            pointer-events: none;
+        }
+        .photo-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .photo-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px 24px 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+            pointer-events: none;
+            z-index: 2;
+        }
+        .photo-counter {
+            color: #fff;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .carousel-arrow:hover {
+            background: #fff;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-50%) scale(1.08);
+        }
+        .carousel-arrow:active {
+            transform: translateY(-50%) scale(0.94);
+        }
+        .carousel-arrow.prev {
+            left: 14px;
+        }
+        .carousel-arrow.next {
+            right: 14px;
+        }
+        @media (max-width: 768px) {
+            .carousel-arrow {
+                width: 34px;
+                height: 34px;
+                font-size: 0.85rem;
+            }
+            .carousel-arrow.prev {
+                left: 8px;
+            }
+            .carousel-arrow.next {
+                right: 8px;
+            }
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 5;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+            padding: 0;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+        .carousel-dot.active {
+            background: #fff;
+            width: 24px;
+            border-radius: 10px;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+        }
+        .carousel-dot:hover {
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .info-area {
+            padding: 28px 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        @media (max-width: 768px) {
+            .info-area {
+                padding: 20px 18px 18px;
+                max-height: none;
+                gap: 12px;
+            }
+        }
+        .info-city-name {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #1a1a1a;
+            line-height: 1.2;
+            transition: all var(--transition);
+        }
+        @media (max-width: 768px) {
+            .info-city-name {
+                font-size: 1.5rem;
+            }
+        }
+        .info-city-eng {
+            font-size: 0.85rem;
+            color: #b5a99a;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: -10px;
+        }
+        .info-description {
+            font-size: 0.93rem;
+            color: #555;
+            line-height: 1.7;
+            letter-spacing: 0.02em;
+        }
+        @media (max-width: 768px) {
+            .info-description {
+                font-size: 0.85rem;
+            }
+        }
+        .info-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 2px;
+        }
+        .highlight-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #faf7f2;
+            border: 1px solid #ebe4d8;
+            padding: 7px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #6b5e4e;
+            letter-spacing: 0.03em;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        .highlight-tag:hover {
+            background: #fdf8f3;
+            border-color: #d4c5ae;
+            color: #4a3f32;
+        }
+        .highlight-tag .emoji {
+            font-size: 1rem;
+        }
+
+        .info-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .info-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #888;
+            letter-spacing: 0.03em;
+        }
+        .info-meta-item .icon {
+            font-size: 1.1rem;
+        }
+
+        .auto-tour-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            transition: all var(--transition-fast);
+            font-family: var(--font-body);
+            white-space: nowrap;
+            align-self: flex-start;
+        }
+        .auto-tour-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+        .auto-tour-btn:active {
+            transform: scale(0.96);
+        }
+        .auto-tour-btn.playing {
+            background: var(--primary);
+            color: #fff;
+            animation: btnGlow 2s ease-in-out infinite;
+        }
+        @keyframes btnGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(232, 129, 59, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 14px rgba(232, 129, 59, 0);
+            }
+        }
+
+        .fade-transition {
+            animation: fadeInUp 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .app-container {
+                padding: 12px 10px 36px;
+            }
+            .app-header h1 {
+                font-size: 1.4rem;
+            }
+            .app-header .subtitle {
+                font-size: 0.8rem;
+            }
+            .route-section {
+                padding: 18px 6px 16px;
+            }
+            .route-connector {
+                width: 28px;
+            }
+            .node-circle {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+                border-width: 2px;
+            }
+            .route-node.active .node-circle {
+                width: 44px;
+                height: 44px;
+            }
+            .node-city {
+                font-size: 0.7rem;
+            }
+            .route-node.active .node-city {
+                font-size: 0.74rem;
+            }
+            .node-days {
+                font-size: 0.6rem;
+            }
+            .info-city-name {
+                font-size: 1.35rem;
+            }
+            .info-area {
+                padding: 16px 14px 14px;
+                gap: 10px;
+            }
+            .highlight-tag {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- 头部 -->
+        <header class="app-header">
+            <span class="tag">✦ 精选路线</span>
+            <h1>欧洲经典之旅</h1>
+            <p class="subtitle">从音乐之都到帝国遗迹，探索欧洲的文化瑰宝</p>
+            <div class="duration-badge">
+                <span class="dot"></span> 全程14天 · 7座城市 · 深度体验
+            </div>
+        </header>
+
+        <!-- 路线图 -->
+        <section class="route-section" aria-label="旅行路线图">
+            <p class="route-label">📍 点击城市查看详情</p>
+            <div class="route-timeline" id="routeTimeline" role="tablist" aria-label="城市列表">
+                <!-- 由JS动态生成 -->
+            </div>
+            <p class="scroll-hint">← 左右滑动查看完整路线 →</p>
+        </section>
+
+        <!-- 详情面板 -->
+        <section class="detail-panel" id="detailPanel" aria-live="polite">
+            <div class="detail-inner">
+                <!-- 照片区域 -->
+                <div class="photo-area" id="photoArea">
+                    <div class="photo-slides" id="photoSlides">
+                        <!-- 由JS动态生成 -->
+                    </div>
+                    <button class="carousel-arrow prev" id="carouselPrev" aria-label="上一张照片">◀</button>
+                    <button class="carousel-arrow next" id="carouselNext" aria-label="下一张照片">▶</button>
+                    <div class="carousel-dots" id="carouselDots">
+                        <!-- 由JS动态生成 -->
+                    </div>
+                    <div class="photo-overlay">
+                        <span class="photo-counter" id="photoCounter">1 / 4</span>
+                    </div>
+                </div>
+                <!-- 信息区域 -->
+                <div class="info-area" id="infoArea">
+                    <!-- 由JS动态填充 -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        (function() {
+            // ========== 城市数据配置 ==========
+            const citiesData = [
+                {
+                    id: 'paris',
+                    name: '巴黎',
+                    nameEn: 'Paris',
+                    emoji: '🗼',
+                    days: '第1-3天',
+                    dayRange: [1, 3],
+                    description: '浪漫之都，艺术之城。漫步塞纳河畔，欣赏埃菲尔铁塔的雄伟身姿，沉浸在卢浮宫的艺术海洋中。这个城市的每一条街道都承载着历史与文化，每一座建筑都诉说着浪漫的故事。',
+                    highlights: ['埃菲尔铁塔', '卢浮宫', '圣母院', '凯旋门', '塞纳河'],
+                    highlightEmojis: ['🗼', '🎨', '⛪', '🏛️', '🌊'],
+                    stayNights: '3晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://images.unsplash.com/photo-1499856871957-5b8620644038?w=800&q=80',
+                        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+                        'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80',
+                        'https://images.unsplash.com/photo-1549144611-11a21e0d4dcd?w=800&q=80',
+                    ],
+                },
+                {
+                    id: 'london',
+                    name: '伦敦',
+                    nameEn: 'London',
+                    emoji: '🇬🇧',
+                    days: '第4-5天',
+                    dayRange: [4, 5],
+                    description: '英国首都，历史重镇。大本钟的钟声伴随着泰晤士河的流淌，伦敦塔桥连接了过去与未来。威斯敏斯特教堂见证了英国的辉煌历程，大英博物馆收藏了世界的瑰宝。',
+                    highlights: ['大本钟', '伦敦塔桥', '威斯敏斯特教堂', '大英博物馆', '白金汉宫'],
+                    highlightEmojis: ['🕐', '🌉', '⛪', '🏛️', '👑'],
+                    stayNights: '2晚',
+                    bestSeason: '春夏季（5-8月）',
+                    photos: [
+                        'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80',
+                        'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&q=80',
+                        'https://images.unsplash.com/photo-1524129995681-d1dc2d975cfd?w=800&q=80',
+                        'https://images.unsplash.com/photo-1487321928504-e4c8cc12b232?w=800&q=80',
+                    ],
+                },
+                {
+                    id: 'amsterdam',
+                    name: '阿姆斯特丹',
+                    nameEn: 'Amsterdam',
+                    emoji: '🚲',
+                    days: '第6-7天',
+                    dayRange: [6, 7],
+                    description: '自行车之城，运河天堂。骑行在狭窄的街道上，穿梭在河道纵横的城市。梵高美术馆、安妮之家讲述着艺术与历史的故事，传统的风车村让人仿佛穿越时光。',
+                    highlights: ['运河游船', '梵高美术馆', '自行车文化', '安妮之家', '风车村'],
+                    highlightEmojis: ['🚤', '🎨', '🚲', '📖', '🌾'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://images.unsplash.com/photo-1520596857549-fc100fc00f9b?w=800&q=80',
+                        'https://images.unsplash.com/photo-1478367711619-fef29df3c6e9?w=800&q=80',
+                        'https://images.unsplash.com/photo-1504681869696-d977e0901d16?w=800&q=80',
+                        'https://images.unsplash.com/photo-1534351590666-13e3e96a5280?w=800&q=80',
+                    ],
+                },
+                {
+                    id: 'berlin',
+                    name: '柏林',
+                    nameEn: 'Berlin',
+                    emoji: '🧱',
+                    days: '第8-9天',
+                    dayRange: [8, 9],
+                    description: '历史见证者，文化之都。勃兰登堡门见证了欧洲历史的转折，柏林墙遗迹提醒人���和平的珍贵。这座城市在废墟上重建，在冲突中寻求和解，展现了人类的韧性与希望。',
+                    highlights: ['勃兰登堡门', '柏林墙遗迹', '国会大厦', '博物馆岛', '查理检查站'],
+                    highlightEmojis: ['🚪', '🧱', '🏛️', '🏺', '✔️'],
+                    stayNights: '2晚',
+                    bestSeason: '春夏季（5-8月）',
+                    photos: [
+                        'https://images.unsplash.com/photo-1524549507289-3f61f8c78e5f?w=800&q=80',
+                        'https://images.unsplash.com/photo-1549144611-11a21e0d4dcd?w=800&q=80',
+                        'https://images.unsplash.com/photo-1560365390-d63a6ad7ba69?w=800&q=80',
+                        'https://images.unsplash.com/photo-1552832860-1c6a4e0c45e9?w=800&q=80',
+                    ],
+                },
+                {
+                    id: 'vienna',
+                    name: '维也纳',
+                    nameEn: 'Vienna',
+                    emoji: '🎻',
+                    days: '第10-11天',
+                    dayRange: [10, 11],
+                    description: '音乐之都，帝国遗迹。维也纳融汇了哈布斯堡王朝的皇家气派与世界古典音乐的文化底蕴。漫步圣斯蒂芬大教堂的哥特式建筑，欣赏美泉宫的恢宏气势，感受国家歌剧院的高雅艺术。',
+                    highlights: ['美泉宫', '圣斯蒂芬大教堂', '维也纳国家歌剧院', '金色大厅', '咖啡文化'],
+                    highlightEmojis: ['🏰', '⛪', '🎭', '🎵', '☕'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
+                        'https://images.unsplash.com/photo-1548013146-65a3caf7a73c?w=800&q=80',
+                        'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
+                        'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&q=80',
+                    ],
+                },
+                {
+                    id: 'rome',
+                    name: '罗马',
+                    nameEn: 'Rome',
+                    emoji: '🏛️',
+                    days: '第12-13天',
+                    dayRange: [12, 13],
+                    description: '永恒之城，古文明摇篮。漫步在古罗马废墟中，仰望圆形竞技场的雄伟身姿。梵蒂冈圣殿的穹顶直指天空，特雷维喷泉见证了无数游客的浪漫许愿。每一块石头都是历史的缩影。',
+                    highlights: ['圆形竞技场', '梵蒂冈圣殿', '特雷维喷泉', '罗马广场', '万神殿'],
+                    highlightEmojis: ['🏛️', '⛪', '💧', '🏛️', '🏛️'],
+                    stayNights: '2晚',
+                    bestSeason: '春秋季（4-5月、9-10月）',
+                    photos: [
+                        'https://images.unsplash.com/photo-1552832860-1c6a4e0c45e9?w=800&q=80',
+                        'https://images.unsplash.com/photo-1523438097614-512919ba92fb?w=800&q=80',
+                        'https://images.unsplash.com/photo-1541605323-3a5170dd72cb?w=800&q=80',
+                        'https://images.unsplash.com/photo-1527186296697-a827d3acf74a?w=800&q=80',
+                    ],
+                },
+                {
+                    id: 'barcelona',
+                    name: '巴塞罗那',
+                    nameEn: 'Barcelona',
+                    emoji: '🎨',
+                    days: '第14天',
+                    dayRange: [14, 14],
+                    description: '艺术之都，高迪杰作。圣家族大教堂的奇异曲线打破了传统建筑的规则，奎尔公园的色彩缤纷让人步入童话世界。地中海的温暖海风，热情的加泰罗尼亚文化，让这座城市充满了生命力。',
+                    highlights: ['圣家族大教堂', '奎尔公园', '兰布拉大街', '海滩', '米罗美术馆'],
+                    highlightEmojis: ['⛪', '🎨', '🛣️', '🏖️', '🖼️'],
+                    stayNights: '1晚',
+                    bestSeason: '春夏季（5-8月）',
+                    photos: [
+                        'https://images.unsplash.com/photo-1583508915901-b1b01b46e916?w=800&q=80',
+                        'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80',
+                        'https://images.unsplash.com/photo-1563883749785-7a87f1b54f8d?w=800&q=80',
+                        'https://images.unsplash.com/photo-1562883676-8c6feb975104?w=800&q=80',
+                    ],
+                },
+            ];
+
+            // ========== 状态管理 ==========
+            let currentCityIndex = 0;
+            let currentPhotoIndex = 0;
+            let photoIntervalId = null;
+            let autoTourIntervalId = null;
+            let isAutoTourPlaying = false;
+
+            // ========== DOM元素 ==========
+            const routeTimeline = document.getElementById('routeTimeline');
+            const photoSlides = document.getElementById('photoSlides');
+            const carouselDots = document.getElementById('carouselDots');
+            const photoCounter = document.getElementById('photoCounter');
+            const infoArea = document.getElementById('infoArea');
+            const carouselPrev = document.getElementById('carouselPrev');
+            const carouselNext = document.getElementById('carouselNext');
+            const detailPanel = document.getElementById('detailPanel');
+
+            // ========== 构建路线图 ==========
+            function buildRouteTimeline() {
+                routeTimeline.innerHTML = '';
+                citiesData.forEach((city, index) => {
+                    if (index < citiesData.length - 1) {
+                        const connector = document.createElement('div');
+                        connector.className = 'route-connector';
+                        connector.dataset.connectorIndex = index;
+                        routeTimeline.appendChild(connector);
+                    }
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'route-node-wrapper';
+
+                    const node = document.createElement('div');
+                    node.className = 'route-node';
+                    node.setAttribute('role', 'tab');
+                    node.setAttribute('aria-label', city.name);
+                    node.setAttribute('tabindex', '0');
+                    node.dataset.cityIndex = index;
+
+                    node.innerHTML = `
+                        <div class="node-circle">${city.emoji}</div>
+                        <div class="node-info">
+                            <div class="node-city">${city.name}</div>
+                            <div class="node-days">${city.days}</div>
+                        </div>
+                    `;
+
+                    node.addEventListener('click', () => selectCity(index));
+                    node.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            selectCity(index);
+                        }
+                    });
+
+                    wrapper.appendChild(node);
+                    routeTimeline.appendChild(wrapper);
+                });
+
+                updateRouteVisuals();
+            }
+
+            // ========== 更新路线视觉状态 ==========
+            function updateRouteVisuals() {
+                const nodes = routeTimeline.querySelectorAll('.route-node');
+                const connectors = routeTimeline.querySelectorAll('.route-connector');
+
+                nodes.forEach((node, i) => {
+                    node.classList.remove('active', 'visited');
+                    if (i === currentCityIndex) {
+                        node.classList.add('active');
+                    } else if (i < currentCityIndex) {
+                        node.classList.add('visited');
+                    }
+                });
+
+                connectors.forEach((conn, i) => {
+                    if (i < currentCityIndex) {
+                        conn.classList.add('completed');
+                    } else {
+                        conn.classList.remove('completed');
+                    }
+                });
+
+                const activeNode = nodes[currentCityIndex];
+                if (activeNode) {
+                    activeNode.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                        inline: 'center',
+                    });
+                }
+            }
+
+            // ========== 选择城市 ==========
+            function selectCity(index) {
+                if (index === currentCityIndex && photoSlides.children.length > 0) {
+                    return;
+                }
+                currentCityIndex = index;
+                currentPhotoIndex = 0;
+                updateRouteVisuals();
+                renderCityDetail(citiesData[index]);
+                resetPhotoAutoPlay();
+                if (infoArea) infoArea.scrollTop = 0;
+                if (window.innerWidth <= 768) {
+                    detailPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            // ========== 渲染城市详情 ==========
+            function renderCityDetail(city) {
+                photoSlides.innerHTML = '';
+                carouselDots.innerHTML = '';
+
+                city.photos.forEach((photoUrl, i) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'photo-slide' + (i === 0 ? ' active' : '');
+                    slide.innerHTML = `<img src="${photoUrl}" alt="${city.name} - 照片${i + 1}" loading="${i === 0 ? 'eager' : 'lazy'}" onerror="this.src='https://images.unsplash.com/photo-1488749807830-63789f68bb65?w=800&q=80'"/>`;
+                    if (i === 0) {
+                        slide.style.background = 'linear-gradient(135deg, #e8d5c4, #d4c3b3)';
+                    }
+                    photoSlides.appendChild(slide);
+
+                    const dot = document.createElement('button');
+                    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', `照片${i + 1}`);
+                    dot.addEventListener('click', () => goToPhoto(i));
+                    carouselDots.appendChild(dot);
+                });
+
+                updatePhotoCounter();
+                updateCarouselDots();
+
+                const highlightsHTML = city.highlights
+                    .map(
+                        (h, i) =>
+                        `<span class="highlight-tag"><span class="emoji">${city.highlightEmojis[i] || '✨'}</span> ${h}</span>`
+                    )
+                    .join('');
+
+                infoArea.innerHTML = `
+                    <div class="fade-transition">
+                        <h2 class="info-city-name">${city.emoji} ${city.name}</h2>
+                        <p class="info-city-eng">${city.nameEn} · ${city.days}</p>
+                        <p class="info-description">${city.description}</p>
+                        <div class="info-highlights">${highlightsHTML}</div>
+                        <div class="info-meta-row">
+                            <span class="info-meta-item"><span class="icon">🛏️</span> 建议停留：${city.stayNights}</span>
+                            <span class="info-meta-item"><span class="icon">🌤️</span> 最佳季节：${city.bestSeason}</span>
+                        </div>
+                        <button class="auto-tour-btn" id="autoTourBtn" title="自动巡游全部城市">
+                            <span>🎬</span> 自动巡游
+                        </button>
+                    </div>
+                `;
+
+                const autoTourBtn = document.getElementById('autoTourBtn');
+                if (autoTourBtn) {
+                    autoTourBtn.addEventListener('click', toggleAutoTour);
+                    if (isAutoTourPlaying) {
+                        autoTourBtn.classList.add('playing');
+                        autoTourBtn.querySelector('span').textContent = '⏸️';
+                        autoTourBtn.childNodes[autoTourBtn.childNodes.length - 1].textContent = ' 停止巡游';
+                    }
+                }
+            }
+
+            // ========== 照片导航 ==========
+            function goToPhoto(index) {
+                const slides = photoSlides.querySelectorAll('.photo-slide');
+                const dots = carouselDots.querySelectorAll('.carousel-dot');
+
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+
+                currentPhotoIndex = index;
+                updatePhotoCounter();
+                resetPhotoAutoPlay();
+            }
+
+            // ========== 更新照片计数 ==========
+            function updatePhotoCounter() {
+                const totalPhotos = photoSlides.children.length;
+                photoCounter.textContent = `${currentPhotoIndex + 1} / ${totalPhotos}`;
+            }
+
+            // ========== 更新走马灯点 ==========
+            function updateCarouselDots() {
+                const dots = carouselDots.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentPhotoIndex);
+                });
+            }
+
+            // ========== 照片自动播放 ==========
+            function startPhotoAutoPlay() {
+                if (photoIntervalId) clearInterval(photoIntervalId);
+                photoIntervalId = setInterval(() => {
+                    const totalPhotos = photoSlides.children.length;
+                    currentPhotoIndex = (currentPhotoIndex + 1) % totalPhotos;
+                    goToPhoto(currentPhotoIndex);
+                }, 4000);
+            }
+
+            // ========== 重置照片自动播放 ==========
+            function resetPhotoAutoPlay() {
+                if (photoIntervalId) clearInterval(photoIntervalId);
+                startPhotoAutoPlay();
+            }
+
+            // ========== 前一张照片 ==========
+            carouselPrev.addEventListener('click', () => {
+                const totalPhotos = photoSlides.children.length;
+                currentPhotoIndex = (currentPhotoIndex - 1 + totalPhotos) % totalPhotos;
+                goToPhoto(currentPhotoIndex);
+            });
+
+            // ========== 下一张照片 ==========
+            carouselNext.addEventListener('click', () => {
+                const totalPhotos = photoSlides.children.length;
+                currentPhotoIndex = (currentPhotoIndex + 1) % totalPhotos;
+                goToPhoto(currentPhotoIndex);
+            });
+
+            // ========== 自动巡游 ==========
+            function toggleAutoTour() {
+                isAutoTourPlaying = !isAutoTourPlaying;
+                const btn = document.getElementById('autoTourBtn');
+
+                if (isAutoTourPlaying) {
+                    btn.classList.add('playing');
+                    btn.querySelector('span').textContent = '⏸️';
+                    btn.childNodes[btn.childNodes.length - 1].textContent = ' 停止巡游';
+                    startAutoTour();
+                } else {
+                    btn.classList.remove('playing');
+                    btn.querySelector('span').textContent = '🎬';
+                    btn.childNodes[btn.childNodes.length - 1].textContent = ' 自动巡游';
+                    if (autoTourIntervalId) clearInterval(autoTourIntervalId);
+                }
+            }
+
+            // ========== 开始自动巡游 ==========
+            function startAutoTour() {
+                if (autoTourIntervalId) clearInterval(autoTourIntervalId);
+                autoTourIntervalId = setInterval(() => {
+                    if (currentCityIndex < citiesData.length - 1) {
+                        selectCity(currentCityIndex + 1);
+                    } else {
+                        isAutoTourPlaying = false;
+                        const btn = document.getElementById('autoTourBtn');
+                        if (btn) {
+                            btn.classList.remove('playing');
+                            btn.querySelector('span').textContent = '🎬';
+                            btn.childNodes[btn.childNodes.length - 1].textContent = ' 自动巡游';
+                        }
+                        clearInterval(autoTourIntervalId);
+                    }
+                }, 5000);
+            }
+
+            // ========== 初始化 ==========
+            buildRouteTimeline();
+            selectCity(0);
+            startPhotoAutoPlay();
+
+            // ========== 清理 ==========
+            window.addEventListener('beforeunload', () => {
+                if (photoIntervalId) clearInterval(photoIntervalId);
+                if (autoTourIntervalId) clearInterval(autoTourIntervalId);
+            });
+        })();
+    </script>
+</body>
+</html>
